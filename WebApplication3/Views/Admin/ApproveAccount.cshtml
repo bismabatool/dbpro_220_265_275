@@ -15,9 +15,7 @@
             {
                 @Html.AntiForgeryToken()
 
-            <div class="form-horizontal">
-                <h2>@Html.DisplayFor(model => model.Cnic)</h2>
-                <h2>@Html.DisplayFor(model => model.Email)</h2>
+            <div class="form-horizontal"><br />
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 

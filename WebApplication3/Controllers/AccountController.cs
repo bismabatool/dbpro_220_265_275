@@ -8,6 +8,8 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.Security;
 using System.Data.Entity.Infrastructure;
+using System.Net.Mail;
+using System.Net;
 
 namespace WebApplication3.Controllers
 {
@@ -15,7 +17,9 @@ namespace WebApplication3.Controllers
     {
         const string connectionString = "Data Source=DESKTOP-2FD4D2N;Initial Catalog=DB58;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework";
         SqlConnection connection = new SqlConnection(connectionString);
+        DB58Entities db = new DB58Entities();
         // GET: Account
+        
         [HttpGet]
         public ActionResult Login()
         {
@@ -24,16 +28,15 @@ namespace WebApplication3.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel model, string ReturnUrl="")
         {
-            string msg = "",a=" ll";
+            string msg = "";
             int i=0;
             if (ModelState.IsValid)
             {
-                connection.Open();
-                string q = "SELECT * FROM tbl_Login WHERE Email='" + model.Email + "' AND Password='" + model.Password + "'";
-                SqlCommand command = new SqlCommand(q, connection);
-                SqlDataReader data = command.ExecuteReader();
-                if (data.Read())
+                var account = db.tbl_Login.Where(x => x.Email.ToString() == model.Email &&
+                x.Password.ToString() == model.Password && x.isActive == true && x.isApproved == true);
+                if (account!=null)
                 {
+                    
                     int timeout = model.RememberMe ? 525600 : 20;
                     var ticket = new FormsAuthenticationTicket(model.Email, model.RememberMe, timeout);
                     string encrypted = FormsAuthentication.Encrypt(ticket);
@@ -48,7 +51,19 @@ namespace WebApplication3.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("AccountApproval", "Admin");
+                        tbl_Login acc = db.tbl_Login.Find(model.Email);
+                        if (acc.UserID==null)
+                        {
+                            Session["AdminEmail"] = model.Email.ToString();
+                            return RedirectToAction("AccountApproval", "Admin");
+                        }
+                        else
+                        {
+                            Session["EmployeeEmail"] = model.Email.ToString();
+                            return RedirectToAction("Index", "loanViews");
+                        }
+                        
+                        
                     }
                 }
                 else
@@ -57,14 +72,13 @@ namespace WebApplication3.Controllers
                     msg = "Invalid email and password";
                 }
                 ViewBag.Status = i;
-                connection.Close();
             }
             else
             {
                 i = 1;
                 msg = "Invalid Information";
             }
-            ViewBag.Message = msg + " "+ a;
+            ViewBag.Message = msg;
             return View(model);
         }
 
@@ -125,16 +139,128 @@ namespace WebApplication3.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public ActionResult ResetPassword()
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult ResetPassword(LoginViewModel model)
+        {
+            string message="";
+            var account = db.tbl_Login.Where(a => a.Email.ToString().ToLower() == model.Email.ToString().ToLower()).FirstOrDefault();
+            if (account != null)
+            {
+                if(account.isActive==true && account.isApproved == true)
+                {
+                    //Send email reset password mail
+                    account.resetCode = Guid.NewGuid();
+                    SendVerificationLinkEmail(model.Email, account.resetCode.ToString(), "ForgetPassword");
+                    db.Configuration.ValidateOnSaveEnabled = false;
+                    db.SaveChanges();
+                    ModelState.Clear();
+                    message = "Reset passord lsink has been sent to your account";
+                    ViewBag.Status = true;
+                }
+            }
+            else
+            {
+                ViewBag.Status = true;
 
+                message = "Invalid Account";
+            }
+            ViewBag.Message = message;
+            return View(model);
+        }
+        [HttpGet]
+        public ActionResult ForgetPassword(string id)
+        {
+            var user = db.tbl_Login.Where(a => a.resetCode.ToString() == id).FirstOrDefault();
+            if (user != null)
+            {
+                ResetPasswordViewModel model = new ResetPasswordViewModel();
+                model.ResetCode = id;
+                ViewBag.Message = model.ResetCode;
+                ViewBag.Status = 2;
+                return View(model);
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgetPassword(ResetPasswordViewModel model)
+        {
+            int flag = 0;
+            string msg = "";
+            if (model.ResetCode == null)
+            {
+                msg = "No request found";
+                flag = 2;
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = db.tbl_Login.Where(a => a.resetCode.ToString() == model.ResetCode.ToString()).FirstOrDefault();
+                    if (user != null)
+                    {
+                        user.Password = model.NewPassword;
+                        user.resetCode = null;
+                        db.SaveChanges();
+                        msg = "Your password has been changed sucessfully!";
+                        flag = 1;
+                    }
+                }
+                else
+                {
+                    msg = "Password doesn't match";
+                    flag = 2;
+                }
+            }
+            ViewBag.Message = msg;
+            ViewBag.Status = flag;
+            return View(model);
+        }
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
             return View();
+        }
+
+        [NonAction]
+        public void SendVerificationLinkEmail(string EmailId, string activationCode, string emailfor)
+        {
+
+            var verifyUrl = "/Account/" + emailfor + "/" + activationCode;
+            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
+
+            var fromEmail = new MailAddress("evento.managment@gmail.com", "Employee Loan Managerials");
+            var toEmail = new MailAddress(EmailId);
+            var fromEmailPassword = "evento12@#";
+            string subject = "", Message = "";
+                subject = "Reset Password";
+                Message = "Hey, <br/><br/>We got request account reset password." + "Please click on the link below to reset your password" +
+                    "<br/><br/><a href=" + link + ">" + link + "</a> <br/> <br/> Thankyou.";
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
+            };
+
+            using (var message = new MailMessage(fromEmail, toEmail)
+            {
+                Subject = subject,
+                Body = Message,
+                IsBodyHtml = true
+            })
+                smtp.Send(message);
         }
     }
 }

@@ -13,25 +13,19 @@ using System.Net.Mail;
 
 namespace WebApplication3.Controllers
 {
-    [Authorize]
+    [Authorize(Users = "admin@gmail.com")]
     public class AdminController : Controller
     {
         const string connectionString = "Data Source=DESKTOP-2FD4D2N;Initial Catalog=DB58;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework";
         SqlConnection connection = new SqlConnection(connectionString);
         DB58Entities db = new DB58Entities();
         // GET: Admin
-        [Authorize]
         public ActionResult ApprovedEmployee()
         {
-            if (Session["AdminEmail"]==null)
-            {
-                return View("Login", "Account");
-            }
             List<currentEmployeeView> el = db.currentEmployeeViews.ToList();
             return View(el);
         }
 
-        [Authorize]
         public ActionResult Delete(string email)
         {
             if (email == "")
@@ -50,18 +44,12 @@ namespace WebApplication3.Controllers
                 return RedirectToAction("ApprovedEmployee");
             }
         }
-
-        [Authorize]
         public ActionResult PendingEmployeeRequest()
         {
-            if (Session["AdminEmail"] == null)
-            {
-                return View("Login", "Account");
-            }
             List<employeeApproveView> el = db.employeeApproveViews.ToList();
             return View(el);
         }
-        [Authorize]
+        
         public ActionResult ApproveEmployee(string email)
         {
             if (email == "")
@@ -80,14 +68,14 @@ namespace WebApplication3.Controllers
                 return RedirectToAction("PendingEmployeeRequest");
             }
         }
-        [Authorize]
+        
         [HttpGet]
         public ActionResult AccountApproval()
         {
             List<employeeApproveView> el = db.employeeApproveViews.ToList();
             return View(el);
         }
-        [Authorize]
+        
         [HttpGet]
         public ActionResult ApproveAccount(string email)
         {
@@ -103,34 +91,59 @@ namespace WebApplication3.Controllers
             else
             {
                 DesignationViewModel designation = new DesignationViewModel();
-                designation.Email = model.Email;
                 designation.Cnic = model.UserID;
+                designation.Email = model.Email;
                 return View(designation);
             }
         }
         [HttpPost]
-        public ActionResult ApproveAccount(DesignationViewModel designation)
+        public ActionResult ApproveAccount(DesignationViewModel model)
         {
-            tbl_Login login = db.tbl_Login.Find(designation.Email);
-            if (login != null)
+            Designation des = new Designation();
+            tbl_Login login = db.tbl_Login.Find(model.Email);
+            Employee emp = db.Employees.Where(x => x.CNIC == login.UserID).FirstOrDefault();
+            if (login != null && emp!=null)
             {
                 login.isActive = true;
                 login.isApproved = true;
-                Designation des = new Designation();
-                des.EmployeeID = designation.Cnic;
-                des.Salary = Convert.ToInt32(designation.Salary);
-                des.PostTitle = designation.Designation;
+                des.EmployeeID = emp.CNIC;
+                des.Salary = Convert.ToInt32(model.Salary);
+                des.PostTitle = model.Designation;
                 des.JoiningDate = DateTime.Now;
                 des.ToDate = DateTime.Now;
                 db.Designations.Add(des);
                 db.SaveChanges();
-                return RedirectToAction("AccountApproval");
+                SendVerificationLinkEmail(model.Email);
+                return RedirectToAction("ApprovedEmployee");
             }
-            return View(designation);
+            return View(model);
         }
 
+        [NonAction]
+        public void SendVerificationLinkEmail(string EmailId)
+        {
+            var fromEmail = new MailAddress("evento.managment@gmail.com", "Employee Loan Managerials");
+            var toEmail = new MailAddress(EmailId);
+            var fromEmailPassword = "evento12@#";
+            string subject = "Account Approval";
+            string Message = "Congragulations! your employee account has been approved. Now, you can login into your account";
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
+            };
 
-
-
+            using (var message = new MailMessage(fromEmail, toEmail)
+            {
+                Subject = subject,
+                Body = Message,
+                IsBodyHtml = true
+            })
+                smtp.Send(message);
+        }
     }
 }
