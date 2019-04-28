@@ -1,0 +1,84 @@
+﻿@model IEnumerable<WebApplication3.currentEmployeeView>
+
+@{
+ViewBag.Title = "ApprovedEmployee";
+Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Current Employees</h4>
+                        
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+@if (Model == null)
+{
+    <div class="alert alert-info">
+        No employees heired yet!  
+    </div>
+}
+else
+{
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-rep-plugin">
+                    <div class="table-responsive mb-0" data-pattern="priority-columns">
+                        <table id="tech-companies-1" class="table  table-striped table-colored table-custom">
+                            <thead>
+                                <tr>
+                                    <th data-priority="3">CNIC</th>
+                                    <th data-priority="2">Employee Name </th>
+                                    <th data-priority="2">Email</th>
+                                    <th data-priority="2">Designation</th>
+                                    <th data-priority="2">Salary</th>
+                                    <th data-priority="2">Contact</th>
+                                    <th data-priority="3">Postal Address</th>
+                                    <th data-priority="1">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CNIC)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PostTitle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Salary)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Contact)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Postal_Address)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Delete", "Delete", new { email = item.Email})
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}

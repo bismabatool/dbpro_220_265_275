@@ -1,0 +1,50 @@
+﻿@model IEnumerable<WebApplication3.Models.feedback>
+
+@{
+    ViewBag.Title = "Feedback - Evento";
+    Layout = "~/Views/Shared/Dashboard.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">FEEDBACK</h4>
+                        <!-- <p class="category">Here is a subtitle for this table</p> -->
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                            <th>Sr. No.</th>
+                            <th>Username</th>
+                            <th>Package Name</th>
+                            <th>Description</th>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.User.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.package.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.details)
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

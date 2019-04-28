@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebApplication3.Models.feedback>
+
+@{
+    ViewBag.Title = "Exp";
+    Layout = "~/Views/Shared/UserNavbar.cshtml";
+}
+
+<h2>Exp</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.details)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.package.details)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.details)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.package.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.counter }) |
+            @Html.ActionLink("Details", "Details", new { id=item.counter }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.counter })
+        </td>
+    </tr>
+}
+
+</table>
