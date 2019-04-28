@@ -1,0 +1,234 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from coderthemes.com/codefox/vertical/calendar.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 24 Apr 2019 18:55:31 GMT -->
+<head>
+    <meta charset="utf-8" />
+    <title>ELMS - Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+
+    <!-- App css -->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/metismenu.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+    <link href="../plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
+
+    <script src="~/assets/js/modernizr.min.js"></script>
+
+</head>
+
+
+<body>
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <!-- Top Bar Start -->
+        <div class="topbar">
+
+            <!-- LOGO -->
+            <div class="topbar-left">
+                <!--<a href="index.html" class="logo"><span>Code<span>Fox</span></span><i class="mdi mdi-layers"></i></a>-->
+                <!-- Image logo -->
+                <a href="index-2.html" class="logo">
+                    <span>
+                        <img src="~/assets/images/logo.png" alt="" height="20">
+                    </span>
+                    <i>
+                        <img src="~/assets/images/logo_sm.png" alt="" height="28">
+                    </i>
+                </a>
+            </div>
+
+            <!-- Button mobile view to collapse sidebar menu -->
+            <div class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+
+                    <!-- Navbar-left -->
+                    <ul class="nav navbar-left">
+                        <li>
+                            <button type="button" class="button-menu-mobile open-left waves-effect">
+                                <i class="dripicons-menu"></i>
+                            </button>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right(Notification) -->
+                    <ul class="nav navbar-right list-inline">
+                    
+                        <li class="dropdown user-box list-inline-item">
+                            <a href="#" class="dropdown-toggle waves-effect user-link" data-toggle="dropdown" aria-expanded="true">
+                                @*<img src="~/assets/images/users/avatar-1.jpg" alt="user-img" class="rounded-circle user-img">*@
+                                <img class="rounded-circle user-img" alt="" src="~/assets/images/icons/businessman.svg" title="businessman.svg" />
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
+                               @* <li><a href="#" class="dropdown-item">Profile</a></li>*@
+                                <li class="dropdown-divider"></li>
+                                <li id="Logout"><a onclick="Logout()" id="Logout" class="dropdown-item">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul> <!-- end navbar-right -->
+
+                </div><!-- end container-fluid -->
+            </div><!-- end navbar -->
+        </div>
+        <!-- Top Bar End -->
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="left side-menu">
+            <div class="slimscroll-menu" id="remove-scroll">
+
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li class="menu-title">Navigation</li>
+
+                        <li>
+                            <a href="javascript: void(0);"><i class="fi-briefcase"></i> <span> Employee </span> <span class="menu-arrow"></span></a>
+                            <ul class="nav-second-level nav" aria-expanded="false">
+                                <li><a href="/Admin/AccountApproval">Unapproved Account</a></li>
+                                <li><a href="/Admin/PendingEmployeeRequest">Alumni Employee</a></li>
+                                <li><a href="/Admin/ApprovedEmployee">Current Employees</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);"><i class="fi-box"></i><span> Loan Categories </span> <span class="menu-arrow"></span></a>
+                            <ul class="nav-second-level nav" aria-expanded="false">
+                                <li><a href="/Loans/Index">Categories of Loan</a></li>
+                                <li><a href="/Loans/Create">Add Loan Category</a></li>
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);"><i class="fi-box"></i><span> Loan Details</span> <span class="menu-arrow"></span></a>
+                            <ul class="nav-second-level nav" aria-expanded="false">
+                                <li><a href="/LoanDetails/Index">View Loan Details</a></li>
+                                <li><a href="/LoanDetails/Create">Add Loan Details</a></li>
+
+                            </ul>
+                        </li>
+
+                        @*<li>
+            <a href="javascript: void(0);"><i class="fi-bar-graph-2"></i><span> Graphs </span> <span class="menu-arrow"></span></a>
+            <ul class="nav-second-level nav" aria-expanded="false">
+                <li><a href="chart-flot.html">Flot Chart</a></li>
+                <li><a href="chart-morris.html">Morris Chart</a></li>
+                <li><a href="chart-google.html">Google Chart</a></li>
+                <li><a href="chart-chartist.html">Chartist Charts</a></li>
+                <li><a href="chart-chartjs.html">Chartjs Chart</a></li>
+                <li><a href="chart-c3.html">C3 Chart</a></li>
+                <li><a href="chart-sparkline.html">Sparkline Chart</a></li>
+                <li><a href="chart-knob.html">Jquery Knob</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript: void(0);"><i class="fi-disc"></i><span class="badge badge-pill badge-primary float-right">9</span> <span> Forms </span></a>
+            <ul class="nav-second-level nav" aria-expanded="false">
+                <li><a href="form-elements.html">Form Elements</a></li>
+                <li><a href="form-advanced.html">Form Advanced</a></li>
+                <li><a href="form-validation.html">Form Validation</a></li>
+                <li><a href="form-pickers.html">Form Pickers</a></li>
+                <li><a href="form-wizard.html">Form Wizard</a></li>
+                <li><a href="form-mask.html">Form Masks</a></li>
+                <li><a href="form-summernote.html">Summernote</a></li>
+                <li><a href="form-wysiwig.html">Wysiwig Editors</a></li>
+                <li><a href="form-uploads.html">Multiple File Upload</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript: void(0);"><i class="fi-layout"></i> <span> Tables </span> <span class="menu-arrow"></span></a>
+            <ul class="nav-second-level nav" aria-expanded="false">
+                <li><a href="tables-basic.html">Basic Tables</a></li>
+                <li><a href="tables-layouts.html">Tables Layouts</a></li>
+                <li><a href="tables-datatable.html">Data Table</a></li>
+                <li><a href="tables-responsive.html">Responsive Table</a></li>
+                <li><a href="tables-tablesaw.html">Tablesaw Table</a></li>
+                <li><a href="tables-editable.html">Editable Table</a></li>
+
+            </ul>
+        </li>*@
+                    </ul>
+
+                </div>
+                <!-- Sidebar -->
+                <div class="clearfix"></div>
+
+            </div>
+            <!-- Sidebar -left -->
+
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <!-- Start content -->
+            <div class="content">
+                <div class="container-fluid" style="margin-top: 10%">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                    <!-- ============================================================== -->
+                    <!-- End Right content here -->
+                    <!-- ============================================================== -->
+
+                </div>
+                <!-- END wrapper -->
+
+
+
+                <script>
+                    var resizefunc = [];
+                </script>
+
+                <!-- jQuery  -->
+                <script src="~/assets/js/jquery.min.js"></script>
+                <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+                <script src="~/assets/js/metisMenu.min.js"></script>
+                <script src="~/assets/js/waves.js"></script>
+                <script src="~/assets/js/jquery.slimscroll.js"></script>
+                <script src="~/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+
+                <!-- Jquery-Ui -->
+                <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+                <!-- BEGIN PAGE SCRIPTS -->
+                <script src="~/plugins/moment/moment.js"></script>
+                <script src='~/plugins/fullcalendar/js/fullcalendar.min.js'></script>
+                <script src="~/assets/pages/jquery.calendar.js"></script>
+
+                <!-- App js -->
+                <script src="~/assets/js/jquery.core.js"></script>
+                <script src="~/assets/js/jquery.app.js"></script>
+                <script>
+                    function Logout() {
+                        alert("Here in function");
+                        window.location.href='@Url.Action( "Logout", "Account")'
+                    }
+                </script>
+
+</body>
+
+<!-- Mirrored from coderthemes.com/codefox/vertical/calendar.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 24 Apr 2019 18:55:36 GMT -->
+</html>

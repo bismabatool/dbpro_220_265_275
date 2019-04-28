@@ -1,0 +1,68 @@
+﻿@model WebApplication3.Models.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_Account.cshtml";
+}
+
+@if (ViewBag.Status==1)
+{
+    <div class="alert alert-danger">@ViewBag.Message</div>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="account-content">
+            <form class="form-horizontal" action="#">
+
+                <div class="form-group m-b-25">
+                    <div class="col-12">
+                        <label for="emailaddress">Email address</label>
+                        <input name="Email" class="form-control input-lg" type="email" id="emailaddress" required="" placeholder="john@deo.com">
+                    </div>
+                </div>
+
+                <div class="form-group m-b-25">
+                    <div class="col-12">
+                        <a href="/Account/ResetPassword" class="text-muted float-right">Forgot your password?</a>
+                        <label for="password">Password</label>
+                        <input name="Password" class="form-control input-lg" type="password" required="" id="password" placeholder="Enter your password">
+                    </div>
+                </div>
+
+                <div class="form-group m-b-20">
+                    <div class="col-12">
+
+                        <div class="custom-control custom-checkbox">
+                            <input name="RememberMe" type="checkbox" class="custom-control-input" id="remembercheck">
+                            <label class="custom-control-label" for="remembercheck">Remember me</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group account-btn text-center m-t-10">
+                    <div class="col-12">
+                        <button class="btn w-lg btn-rounded btn-lg btn-primary waves-effect waves-light" type="submit">Sign In</button>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+    <!-- end card-box-->
+
+
+    <div class="row m-t-50">
+        <div class="col-sm-12 text-center">
+            <p class="text-muted">Don't have an account? <a class="text-dark m-l-5" href="/Account/Register">Sign Up</a></p>
+        </div>
+    </div>
+}
+
+
+

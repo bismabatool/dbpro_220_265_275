@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EventoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="admin" />
+    </Key>
+    <Property Name="admin" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="company">
+    <Key>
+      <PropertyRef Name="name" />
+    </Key>
+    <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ceo" Type="varchar" MaxLength="50" />
+    <Property Name="address" Type="varchar" MaxLength="50" />
+    <Property Name="contact" Type="int" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="isapproved" Type="bit" />
+  </EntityType>
+  <EntityType Name="feedback">
+    <Key>
+      <PropertyRef Name="counter" />
+    </Key>
+    <Property Name="counter" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="details" Type="varchar(max)" />
+    <Property Name="packageId" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="package">
+    <Key>
+      <PropertyRef Name="name" />
+    </Key>
+    <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="price" Type="smallint" />
+    <Property Name="details" Type="varchar(max)" />
+    <Property Name="category" Type="varchar" MaxLength="50" />
+    <Property Name="companyId" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="email" />
+    </Key>
+    <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="contact" Type="int" />
+    <Property Name="packageId" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_feedback_package">
+    <End Role="package" Type="Self.package" Multiplicity="1" />
+    <End Role="feedback" Type="Self.feedback" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="package">
+        <PropertyRef Name="name" />
+      </Principal>
+      <Dependent Role="feedback">
+        <PropertyRef Name="packageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_feedback_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="feedback" Type="Self.feedback" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="email" />
+      </Principal>
+      <Dependent Role="feedback">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_package_company">
+    <End Role="company" Type="Self.company" Multiplicity="1" />
+    <End Role="package" Type="Self.package" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="company">
+        <PropertyRef Name="name" />
+      </Principal>
+      <Dependent Role="package">
+        <PropertyRef Name="companyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_package">
+    <End Role="package" Type="Self.package" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="package">
+        <PropertyRef Name="name" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="packageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EventoDBModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="company" EntityType="Self.company" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="feedback" EntityType="Self.feedback" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="package" EntityType="Self.package" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_feedback_package" Association="Self.FK_feedback_package">
+      <End Role="package" EntitySet="package" />
+      <End Role="feedback" EntitySet="feedback" />
+    </AssociationSet>
+    <AssociationSet Name="FK_feedback_User" Association="Self.FK_feedback_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="feedback" EntitySet="feedback" />
+    </AssociationSet>
+    <AssociationSet Name="FK_package_company" Association="Self.FK_package_company">
+      <End Role="company" EntitySet="company" />
+      <End Role="package" EntitySet="package" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_package" Association="Self.FK_User_package">
+      <End Role="package" EntitySet="package" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

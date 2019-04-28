@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EventoDBModelStoreContainer" CdmEntityContainer="EventoDBEntities1">
+    <EntitySetMapping Name="Admins">
+      <EntityTypeMapping TypeName="EventoDBModel.Admin">
+        <MappingFragment StoreEntitySet="Admin">
+          <ScalarProperty Name="admin1" ColumnName="admin" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="companies">
+      <EntityTypeMapping TypeName="EventoDBModel.company">
+        <MappingFragment StoreEntitySet="company">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="ceo" ColumnName="ceo" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="contact" ColumnName="contact" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="isapproved" ColumnName="isapproved" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="feedbacks">
+      <EntityTypeMapping TypeName="EventoDBModel.feedback">
+        <MappingFragment StoreEntitySet="feedback">
+          <ScalarProperty Name="counter" ColumnName="counter" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="details" ColumnName="details" />
+          <ScalarProperty Name="packageId" ColumnName="packageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="packages">
+      <EntityTypeMapping TypeName="EventoDBModel.package">
+        <MappingFragment StoreEntitySet="package">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="details" ColumnName="details" />
+          <ScalarProperty Name="category" ColumnName="category" />
+          <ScalarProperty Name="companyId" ColumnName="companyId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="EventoDBModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="EventoDBModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="contact" ColumnName="contact" />
+          <ScalarProperty Name="packageId" ColumnName="packageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

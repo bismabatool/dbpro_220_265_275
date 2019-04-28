@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB58Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Designation">
+    <Key>
+      <PropertyRef Name="DesignationID" />
+    </Key>
+    <Property Name="DesignationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PostTitle" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Salary" Type="Int32" Nullable="false" />
+    <Property Name="JoiningDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK__Designati__Emplo__656C112C" FromRole="Designation" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="CNIC" />
+    </Key>
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AGE" Type="Int32" Nullable="false" />
+    <Property Name="Gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CNIC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Postal_Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Designations" Relationship="Self.FK__Designati__Emplo__656C112C" FromRole="Employee" ToRole="Designation" />
+    <NavigationProperty Name="LoanApplications" Relationship="Self.FK__LoanAppli__Emplo__74AE54BC" FromRole="Employee" ToRole="LoanApplication" />
+    <NavigationProperty Name="tbl_Login" Relationship="Self.FK_tbl_Login_Employee" FromRole="Employee" ToRole="tbl_Login" />
+  </EntityType>
+  <EntityType Name="LoanApplication">
+    <Key>
+      <PropertyRef Name="ApplicationID" />
+    </Key>
+    <Property Name="ApplicationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LoanID" Type="Int32" Nullable="false" />
+    <Property Name="EmployeeID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PrincipalAmount" Type="Int32" Nullable="false" />
+    <Property Name="Verified" Type="Boolean" Nullable="false" />
+    <Property Name="Reason" Type="String" MaxLength="600" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AppliedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK__LoanAppli__Emplo__74AE54BC" FromRole="LoanApplication" ToRole="Employee" />
+    <NavigationProperty Name="LoanStatus" Relationship="Self.FK__LoanStatu__Appli__797309D9" FromRole="LoanApplication" ToRole="LoanStatus" />
+    <NavigationProperty Name="Loan" Relationship="DB58Model.FK__LoanAppli__LoanI__75A278F5" FromRole="LoanApplication" ToRole="Loan" />
+  </EntityType>
+  <EntityType Name="LoanDetail">
+    <Key>
+      <PropertyRef Name="LoanDetailID" />
+    </Key>
+    <Property Name="LoanDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LoanID" Type="Int32" Nullable="false" />
+    <Property Name="Detail" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Category" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Lookup" Relationship="Self.FK__LoanDetai__Categ__7D439ABD" FromRole="LoanDetails" ToRole="Lookup" />
+    <NavigationProperty Name="Loan" Relationship="DB58Model.FK__LoanDetai__LoanI__7C4F7684" FromRole="LoanDetail" ToRole="Loan" />
+  </EntityType>
+  <EntityType Name="LoanStatu">
+    <Key>
+      <PropertyRef Name="LoanStatusID" />
+    </Key>
+    <Property Name="LoanStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ApplicationID" Type="Int32" Nullable="false" />
+    <Property Name="PrincipleAmount" Type="Double" Nullable="false" />
+    <Property Name="RemainingAmount" Type="Double" Nullable="false" />
+    <Property Name="Tenure" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="LoanApplication" Relationship="Self.FK__LoanStatu__Appli__797309D9" FromRole="LoanStatus" ToRole="LoanApplication" />
+  </EntityType>
+  <EntityType Name="Lookup">
+    <Key>
+      <PropertyRef Name="LookupID" />
+    </Key>
+    <Property Name="LookupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Category" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="LoanDetails" Relationship="Self.FK__LoanDetai__Categ__7D439ABD" FromRole="Lookup" ToRole="LoanDetails" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_Login">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+    <Property Name="isApproved" Type="Boolean" Nullable="false" />
+    <Property Name="isActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_tbl_Login_Employee" FromRole="tbl_Login" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="currentEmployeeView">
+    <Key>
+      <PropertyRef Name="CNIC" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="Contact" />
+      <PropertyRef Name="Postal_Address" />
+      <PropertyRef Name="PostTitle" />
+      <PropertyRef Name="Salary" />
+      <PropertyRef Name="isApproved" />
+      <PropertyRef Name="isActive" />
+    </Key>
+    <Property Name="CNIC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="101" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Postal_Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PostTitle" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Salary" Type="Int32" Nullable="false" />
+    <Property Name="isApproved" Type="Boolean" Nullable="false" />
+    <Property Name="isActive" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="employeeApproveView">
+    <Key>
+      <PropertyRef Name="CNIC" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="Contact" />
+      <PropertyRef Name="Postal_Address" />
+      <PropertyRef Name="isApproved" />
+      <PropertyRef Name="isActive" />
+    </Key>
+    <Property Name="CNIC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="101" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Postal_Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="isApproved" Type="Boolean" Nullable="false" />
+    <Property Name="isActive" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Designati__Emplo__656C112C">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Designation" Type="Self.Designation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="CNIC" />
+      </Principal>
+      <Dependent Role="Designation">
+        <PropertyRef Name="EmployeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__LoanAppli__Emplo__74AE54BC">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="LoanApplication" Type="Self.LoanApplication" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="CNIC" />
+      </Principal>
+      <Dependent Role="LoanApplication">
+        <PropertyRef Name="EmployeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Login_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="tbl_Login" Type="Self.tbl_Login" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="CNIC" />
+      </Principal>
+      <Dependent Role="tbl_Login">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__LoanStatu__Appli__797309D9">
+    <End Role="LoanApplication" Type="Self.LoanApplication" Multiplicity="1" />
+    <End Role="LoanStatus" Type="Self.LoanStatu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoanApplication">
+        <PropertyRef Name="ApplicationID" />
+      </Principal>
+      <Dependent Role="LoanStatus">
+        <PropertyRef Name="ApplicationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__LoanDetai__Categ__7D439ABD">
+    <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+    <End Role="LoanDetails" Type="Self.LoanDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lookup">
+        <PropertyRef Name="LookupID" />
+      </Principal>
+      <Dependent Role="LoanDetails">
+        <PropertyRef Name="Category" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DB58Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Designations" EntityType="Self.Designation" />
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="LoanApplications" EntityType="Self.LoanApplication" />
+    <EntitySet Name="LoanDetails" EntityType="Self.LoanDetail" />
+    <EntitySet Name="LoanStatus" EntityType="Self.LoanStatu" />
+    <EntitySet Name="Lookups" EntityType="Self.Lookup" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="tbl_Login" EntityType="Self.tbl_Login" />
+    <EntitySet Name="currentEmployeeViews" EntityType="Self.currentEmployeeView" />
+    <EntitySet Name="employeeApproveViews" EntityType="Self.employeeApproveView" />
+    <AssociationSet Name="FK__Designati__Emplo__656C112C" Association="Self.FK__Designati__Emplo__656C112C">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Designation" EntitySet="Designations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__LoanAppli__Emplo__74AE54BC" Association="Self.FK__LoanAppli__Emplo__74AE54BC">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="LoanApplication" EntitySet="LoanApplications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Login_Employee" Association="Self.FK_tbl_Login_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="tbl_Login" EntitySet="tbl_Login" />
+    </AssociationSet>
+    <AssociationSet Name="FK__LoanStatu__Appli__797309D9" Association="Self.FK__LoanStatu__Appli__797309D9">
+      <End Role="LoanApplication" EntitySet="LoanApplications" />
+      <End Role="LoanStatus" EntitySet="LoanStatus" />
+    </AssociationSet>
+    <AssociationSet Name="FK__LoanDetai__Categ__7D439ABD" Association="Self.FK__LoanDetai__Categ__7D439ABD">
+      <End Role="Lookup" EntitySet="Lookups" />
+      <End Role="LoanDetails" EntitySet="LoanDetails" />
+    </AssociationSet>
+    <FunctionImport Name="employeeAccountApproveView" ReturnType="Collection(DB58Model.employeeAccountApproveView_Result)" />
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(DB58Model.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(DB58Model.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="vl" ReturnType="Collection(DB58Model.vl_Result)" />
+    <EntitySet Name="empRegisterViews" EntityType="DB58Model.empRegisterView" />
+    <EntitySet Name="Loans" EntityType="DB58Model.Loan" />
+    <AssociationSet Name="FK__LoanAppli__LoanI__75A278F5" Association="DB58Model.FK__LoanAppli__LoanI__75A278F5">
+      <End Role="Loan" EntitySet="Loans" />
+      <End Role="LoanApplication" EntitySet="LoanApplications" />
+    </AssociationSet>
+    <AssociationSet Name="FK__LoanDetai__LoanI__7C4F7684" Association="DB58Model.FK__LoanDetai__LoanI__7C4F7684">
+      <End Role="Loan" EntitySet="Loans" />
+      <End Role="LoanDetail" EntitySet="LoanDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="employeeAccountApproveView_Result">
+    <Property Type="String" Name="CNIC" Nullable="false" MaxLength="13" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="101" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Contact" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Postal_Address" Nullable="false" MaxLength="255" />
+    <Property Type="Boolean" Name="isApproved" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="vl_Result">
+    <Property Type="Int32" Name="LoanID" Nullable="false" />
+    <Property Type="String" Name="LoanType" Nullable="false" MaxLength="30" />
+  </ComplexType>
+  <EntityType Name="empRegisterView">
+    <Key>
+      <PropertyRef Name="FirstName" />
+      <PropertyRef Name="LastName" />
+      <PropertyRef Name="AGE" />
+      <PropertyRef Name="Gender" />
+      <PropertyRef Name="CNIC" />
+      <PropertyRef Name="DOB" />
+      <PropertyRef Name="Contact" />
+      <PropertyRef Name="Postal_Address" />
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="Password" />
+      <PropertyRef Name="isApproved" />
+      <PropertyRef Name="isActive" />
+    </Key>
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AGE" Type="Int32" Nullable="false" />
+    <Property Name="Gender" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="CNIC" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
+    <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Contact" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Postal_Address" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+    <Property Name="isApproved" Type="Boolean" Nullable="false" />
+    <Property Name="isActive" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Loan">
+    <Key>
+      <PropertyRef Name="LoanID" />
+    </Key>
+    <Property Name="LoanID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LoanType" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="InterestRate" Type="Double" Nullable="false" />
+    <Property Name="MaxAmount" Type="Double" Nullable="false" />
+    <NavigationProperty Name="LoanApplications" Relationship="DB58Model.FK__LoanAppli__LoanI__75A278F5" FromRole="Loan" ToRole="LoanApplication" />
+    <NavigationProperty Name="LoanDetails" Relationship="DB58Model.FK__LoanDetai__LoanI__7C4F7684" FromRole="Loan" ToRole="LoanDetail" />
+  </EntityType>
+  <Association Name="FK__LoanAppli__LoanI__75A278F5">
+    <End Type="DB58Model.Loan" Role="Loan" Multiplicity="1" />
+    <End Type="DB58Model.LoanApplication" Role="LoanApplication" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Loan">
+        <PropertyRef Name="LoanID" />
+      </Principal>
+      <Dependent Role="LoanApplication">
+        <PropertyRef Name="LoanID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__LoanDetai__LoanI__7C4F7684">
+    <End Type="DB58Model.Loan" Role="Loan" Multiplicity="1" />
+    <End Type="DB58Model.LoanDetail" Role="LoanDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Loan">
+        <PropertyRef Name="LoanID" />
+      </Principal>
+      <Dependent Role="LoanDetail">
+        <PropertyRef Name="LoanID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

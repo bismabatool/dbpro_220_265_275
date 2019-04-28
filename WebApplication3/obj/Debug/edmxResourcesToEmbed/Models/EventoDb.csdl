@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EventoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="admin1" />
+    </Key>
+    <Property Name="admin1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="company">
+    <Key>
+      <PropertyRef Name="name" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ceo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="contact" Type="Int32" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="isapproved" Type="Boolean" />
+    <NavigationProperty Name="packages" Relationship="Self.FK_package_company" FromRole="company" ToRole="package" />
+  </EntityType>
+  <EntityType Name="feedback">
+    <Key>
+      <PropertyRef Name="counter" />
+    </Key>
+    <Property Name="counter" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="packageId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="package" Relationship="Self.FK_feedback_package" FromRole="feedback" ToRole="package" />
+    <NavigationProperty Name="User" Relationship="Self.FK_feedback_User" FromRole="feedback" ToRole="User" />
+  </EntityType>
+  <EntityType Name="package">
+    <Key>
+      <PropertyRef Name="name" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="price" Type="Int16" />
+    <Property Name="details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="companyId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="company" Relationship="Self.FK_package_company" FromRole="package" ToRole="company" />
+    <NavigationProperty Name="feedbacks" Relationship="Self.FK_feedback_package" FromRole="package" ToRole="feedback" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_User_package" FromRole="package" ToRole="User" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="email" />
+    </Key>
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="contact" Type="Int32" />
+    <Property Name="packageId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="feedbacks" Relationship="Self.FK_feedback_User" FromRole="User" ToRole="feedback" />
+    <NavigationProperty Name="package" Relationship="Self.FK_User_package" FromRole="User" ToRole="package" />
+  </EntityType>
+  <Association Name="FK_package_company">
+    <End Role="company" Type="Self.company" Multiplicity="1" />
+    <End Role="package" Type="Self.package" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="company">
+        <PropertyRef Name="name" />
+      </Principal>
+      <Dependent Role="package">
+        <PropertyRef Name="companyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_feedback_package">
+    <End Role="package" Type="Self.package" Multiplicity="1" />
+    <End Role="feedback" Type="Self.feedback" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="package">
+        <PropertyRef Name="name" />
+      </Principal>
+      <Dependent Role="feedback">
+        <PropertyRef Name="packageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_feedback_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="feedback" Type="Self.feedback" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="email" />
+      </Principal>
+      <Dependent Role="feedback">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_package">
+    <End Role="package" Type="Self.package" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="package">
+        <PropertyRef Name="name" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="packageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EventoDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="Self.Admin" />
+    <EntitySet Name="companies" EntityType="Self.company" />
+    <EntitySet Name="feedbacks" EntityType="Self.feedback" />
+    <EntitySet Name="packages" EntityType="Self.package" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_package_company" Association="Self.FK_package_company">
+      <End Role="company" EntitySet="companies" />
+      <End Role="package" EntitySet="packages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_feedback_package" Association="Self.FK_feedback_package">
+      <End Role="package" EntitySet="packages" />
+      <End Role="feedback" EntitySet="feedbacks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_feedback_User" Association="Self.FK_feedback_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="feedback" EntitySet="feedbacks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_package" Association="Self.FK_User_package">
+      <End Role="package" EntitySet="packages" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

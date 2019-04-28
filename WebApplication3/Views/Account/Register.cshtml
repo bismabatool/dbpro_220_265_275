@@ -1,0 +1,145 @@
+﻿@model WebApplication3.Models.RegisterViewModel
+
+@{
+    Layout = "~/Views/Shared/_Account.cshtml";
+}
+@if (ViewBag.Status == 1)
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+else if (ViewBag.Status == 2)
+{
+    <div class="alert alert-danger">@ViewBag.ErrMessage</div>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="account-content">
+        <form class="form-horizontal" action="#">
+
+            <div class="form-group m-b-25">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="username">First Name</label>
+                        <input name="FirstName" class="form-control input-lg" type="text" id="firstName" required="" placeholder="Michael">
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-6">
+                        <label for="username">Last Name</label>
+                        <input name="LastName" class="form-control input-lg" type="text" id="lastName" required="" placeholder="Zenaty">
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-b-25">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="emailaddress">Email address</label>
+                        <input name="Email" class="form-control input-lg" type="email" id="emailaddress" required="" placeholder="emp236578@gmail.com">
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-b-25">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="cnic">CNIC</label>
+                        <input name="CNIC" class="form-control input-lg" type="number" maxlength="13" id="cnic" placeholder="3520256753627" />
+                        @Html.ValidationMessageFor(model => model.CNIC, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-b-25">
+                <div class="row">
+                    <div class="col-3">
+                        <label for="age">Age</label>
+                        <input name="AGE" class="form-control input-lg" id="Age" required="" min="0" max="100" placeholder="30">
+                        @Html.ValidationMessageFor(model => model.AGE, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-4">
+                        <label for="gender">Gender</label>
+                        <select class="form-control input-lg" name="Gender" class="form-control select2">
+                            <option>Select</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value="O">Other</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-5">
+                        <label for="Dob">Date of Birth</label>
+                        <input name="DOB" class="form-control input-lg" type="date" placeholder="1/1/1991" />
+                        @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-b-25">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="Contact">Contact</label>
+                        <input name="Contact" class="form-control input-lg" type="number" required="" placeholder="0900-78699">
+                        @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-b-25">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="password">Password</label>
+                        <input name="Password" class="form-control input-lg" type="password" required="" id="password" placeholder="Enter your password">
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-b-25">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="cPassword">Confirm Password</label>
+                        <input name="cPassword" class="form-control input-lg" type="password" required="" id="cPassword" placeholder="Reenter password">
+                        @Html.ValidationMessageFor(model => model.cPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-b-25">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="postalAddress">Postal Address</label>
+                        <textarea name="PostalAddress" class="form-control input-lg" type="address" required="" id="address" placeholder="184/C Street, California"></textarea>
+                        @Html.ValidationMessageFor(model => model.PostalAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group m-b-20">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="termscheck">
+                            <label class="custom-control-label" for="termscheck">I accept <a href="#">Terms and Conditions</a></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group account-btn text-center m-t-10">
+                <div class="col-12">
+                    <button class="btn btn--form w-lg btn-rounded btn-lg btn-primary waves-effect waves-light" type="submit">Sign Up Free</button>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="clearfix"></div>
+
+    </div>
+
+    <div class="row m-t-50">
+        <div class="col-sm-12 text-center">
+            <p class="text-muted">Already have an account?  <a href="/Account/Login" class="text-dark m-l-5">Sign In</a></p>
+        </div>
+    </div>
+
+}
+
+

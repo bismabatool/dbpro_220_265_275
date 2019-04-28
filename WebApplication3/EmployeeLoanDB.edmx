@@ -1,0 +1,953 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB58Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Designation">
+          <Key>
+            <PropertyRef Name="DesignationID" />
+          </Key>
+          <Property Name="DesignationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="PostTitle" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Salary" Type="int" Nullable="false" />
+          <Property Name="JoiningDate" Type="datetime" Nullable="false" />
+          <Property Name="ToDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="CNIC" />
+          </Key>
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AGE" Type="int" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="CNIC" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="Contact" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Postal_Address" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Loan">
+          <Key>
+            <PropertyRef Name="LoanID" />
+          </Key>
+          <Property Name="LoanID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoanType" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="InterestRate" Type="float" Nullable="false" />
+          <Property Name="MaxAmount" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LoanApplication">
+          <Key>
+            <PropertyRef Name="ApplicationID" />
+          </Key>
+          <Property Name="ApplicationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoanID" Type="int" Nullable="false" />
+          <Property Name="EmployeeID" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="PrincipalAmount" Type="int" Nullable="false" />
+          <Property Name="Verified" Type="bit" Nullable="false" />
+          <Property Name="Reason" Type="varchar" MaxLength="600" Nullable="false" />
+          <Property Name="AppliedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LoanDetails">
+          <Key>
+            <PropertyRef Name="LoanDetailID" />
+          </Key>
+          <Property Name="LoanDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoanID" Type="int" Nullable="false" />
+          <Property Name="Detail" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Category" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LoanStatus">
+          <Key>
+            <PropertyRef Name="LoanStatusID" />
+          </Key>
+          <Property Name="LoanStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicationID" Type="int" Nullable="false" />
+          <Property Name="PrincipleAmount" Type="float" Nullable="false" />
+          <Property Name="RemainingAmount" Type="float" Nullable="false" />
+          <Property Name="Tenure" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lookup">
+          <Key>
+            <PropertyRef Name="LookupID" />
+          </Key>
+          <Property Name="LookupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_Login">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserID" Type="varchar" MaxLength="13" />
+          <Property Name="isApproved" Type="bit" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB58.dbo.currentEmployeeView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="currentEmployeeView">
+          <Key>
+            <PropertyRef Name="CNIC" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="Contact" />
+            <PropertyRef Name="Postal_Address" />
+            <PropertyRef Name="PostTitle" />
+            <PropertyRef Name="Salary" />
+            <PropertyRef Name="isApproved" />
+            <PropertyRef Name="isActive" />
+          </Key>
+          <Property Name="CNIC" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="101" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contact" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Postal_Address" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="PostTitle" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Salary" Type="int" Nullable="false" />
+          <Property Name="isApproved" Type="bit" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB58.dbo.employeeApproveView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="employeeApproveView">
+          <Key>
+            <PropertyRef Name="CNIC" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="Contact" />
+            <PropertyRef Name="Postal_Address" />
+            <PropertyRef Name="isApproved" />
+            <PropertyRef Name="isActive" />
+          </Key>
+          <Property Name="CNIC" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="101" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contact" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Postal_Address" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="isApproved" Type="bit" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB58.dbo.empRegisterView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="empRegisterView">
+          <Key>
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="AGE" />
+            <PropertyRef Name="Gender" />
+            <PropertyRef Name="CNIC" />
+            <PropertyRef Name="DOB" />
+            <PropertyRef Name="Contact" />
+            <PropertyRef Name="Postal_Address" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="isApproved" />
+            <PropertyRef Name="isActive" />
+          </Key>
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AGE" Type="int" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="CNIC" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="Contact" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Postal_Address" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserID" Type="varchar" MaxLength="13" />
+          <Property Name="isApproved" Type="bit" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Designati__Emplo__656C112C">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Designation" Type="Self.Designation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="CNIC" />
+            </Principal>
+            <Dependent Role="Designation">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoanAppli__Emplo__74AE54BC">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="LoanApplication" Type="Self.LoanApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="CNIC" />
+            </Principal>
+            <Dependent Role="LoanApplication">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoanAppli__LoanI__75A278F5">
+          <End Role="Loan" Type="Self.Loan" Multiplicity="1" />
+          <End Role="LoanApplication" Type="Self.LoanApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Loan">
+              <PropertyRef Name="LoanID" />
+            </Principal>
+            <Dependent Role="LoanApplication">
+              <PropertyRef Name="LoanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoanDetai__Categ__7D439ABD">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+          <End Role="LoanDetails" Type="Self.LoanDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupID" />
+            </Principal>
+            <Dependent Role="LoanDetails">
+              <PropertyRef Name="Category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoanDetai__LoanI__7C4F7684">
+          <End Role="Loan" Type="Self.Loan" Multiplicity="1" />
+          <End Role="LoanDetails" Type="Self.LoanDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Loan">
+              <PropertyRef Name="LoanID" />
+            </Principal>
+            <Dependent Role="LoanDetails">
+              <PropertyRef Name="LoanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoanStatu__Appli__797309D9">
+          <End Role="LoanApplication" Type="Self.LoanApplication" Multiplicity="1" />
+          <End Role="LoanStatus" Type="Self.LoanStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoanApplication">
+              <PropertyRef Name="ApplicationID" />
+            </Principal>
+            <Dependent Role="LoanStatus">
+              <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Login_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="tbl_Login" Type="Self.tbl_Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="CNIC" />
+            </Principal>
+            <Dependent Role="tbl_Login">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="employeeAccountApproveView" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="vl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="DB58ModelStoreContainer">
+          <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Loan" EntityType="Self.Loan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoanApplication" EntityType="Self.LoanApplication" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoanDetails" EntityType="Self.LoanDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoanStatus" EntityType="Self.LoanStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lookup" EntityType="Self.Lookup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Login" EntityType="Self.tbl_Login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="currentEmployeeView" EntityType="Self.currentEmployeeView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [currentEmployeeView].[CNIC] AS [CNIC], 
+    [currentEmployeeView].[Name] AS [Name], 
+    [currentEmployeeView].[Email] AS [Email], 
+    [currentEmployeeView].[Contact] AS [Contact], 
+    [currentEmployeeView].[Postal_Address] AS [Postal_Address], 
+    [currentEmployeeView].[PostTitle] AS [PostTitle], 
+    [currentEmployeeView].[Salary] AS [Salary], 
+    [currentEmployeeView].[isApproved] AS [isApproved], 
+    [currentEmployeeView].[isActive] AS [isActive]
+    FROM [dbo].[currentEmployeeView] AS [currentEmployeeView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="employeeApproveView" EntityType="Self.employeeApproveView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [employeeApproveView].[CNIC] AS [CNIC], 
+    [employeeApproveView].[Name] AS [Name], 
+    [employeeApproveView].[Email] AS [Email], 
+    [employeeApproveView].[Contact] AS [Contact], 
+    [employeeApproveView].[Postal_Address] AS [Postal_Address], 
+    [employeeApproveView].[isApproved] AS [isApproved], 
+    [employeeApproveView].[isActive] AS [isActive]
+    FROM [dbo].[employeeApproveView] AS [employeeApproveView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="empRegisterView" EntityType="Self.empRegisterView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [empRegisterView].[FirstName] AS [FirstName], 
+    [empRegisterView].[LastName] AS [LastName], 
+    [empRegisterView].[AGE] AS [AGE], 
+    [empRegisterView].[Gender] AS [Gender], 
+    [empRegisterView].[CNIC] AS [CNIC], 
+    [empRegisterView].[DOB] AS [DOB], 
+    [empRegisterView].[Contact] AS [Contact], 
+    [empRegisterView].[Postal_Address] AS [Postal_Address], 
+    [empRegisterView].[Email] AS [Email], 
+    [empRegisterView].[Password] AS [Password], 
+    [empRegisterView].[UserID] AS [UserID], 
+    [empRegisterView].[isApproved] AS [isApproved], 
+    [empRegisterView].[isActive] AS [isActive]
+    FROM [dbo].[empRegisterView] AS [empRegisterView]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Designati__Emplo__656C112C" Association="Self.FK__Designati__Emplo__656C112C">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Designation" EntitySet="Designation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanAppli__Emplo__74AE54BC" Association="Self.FK__LoanAppli__Emplo__74AE54BC">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="LoanApplication" EntitySet="LoanApplication" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanAppli__LoanI__75A278F5" Association="Self.FK__LoanAppli__LoanI__75A278F5">
+            <End Role="Loan" EntitySet="Loan" />
+            <End Role="LoanApplication" EntitySet="LoanApplication" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanDetai__Categ__7D439ABD" Association="Self.FK__LoanDetai__Categ__7D439ABD">
+            <End Role="Lookup" EntitySet="Lookup" />
+            <End Role="LoanDetails" EntitySet="LoanDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanDetai__LoanI__7C4F7684" Association="Self.FK__LoanDetai__LoanI__7C4F7684">
+            <End Role="Loan" EntitySet="Loan" />
+            <End Role="LoanDetails" EntitySet="LoanDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanStatu__Appli__797309D9" Association="Self.FK__LoanStatu__Appli__797309D9">
+            <End Role="LoanApplication" EntitySet="LoanApplication" />
+            <End Role="LoanStatus" EntitySet="LoanStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Login_Employee" Association="Self.FK_tbl_Login_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="tbl_Login" EntitySet="tbl_Login" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB58Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Designation">
+          <Key>
+            <PropertyRef Name="DesignationID" />
+          </Key>
+          <Property Name="DesignationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PostTitle" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Salary" Type="Int32" Nullable="false" />
+          <Property Name="JoiningDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Designati__Emplo__656C112C" FromRole="Designation" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="CNIC" />
+          </Key>
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AGE" Type="Int32" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CNIC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Postal_Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Designations" Relationship="Self.FK__Designati__Emplo__656C112C" FromRole="Employee" ToRole="Designation" />
+          <NavigationProperty Name="LoanApplications" Relationship="Self.FK__LoanAppli__Emplo__74AE54BC" FromRole="Employee" ToRole="LoanApplication" />
+          <NavigationProperty Name="tbl_Login" Relationship="Self.FK_tbl_Login_Employee" FromRole="Employee" ToRole="tbl_Login" />
+        </EntityType>
+        <EntityType Name="LoanApplication">
+          <Key>
+            <PropertyRef Name="ApplicationID" />
+          </Key>
+          <Property Name="ApplicationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoanID" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PrincipalAmount" Type="Int32" Nullable="false" />
+          <Property Name="Verified" Type="Boolean" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="600" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AppliedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__LoanAppli__Emplo__74AE54BC" FromRole="LoanApplication" ToRole="Employee" />
+          <NavigationProperty Name="LoanStatus" Relationship="Self.FK__LoanStatu__Appli__797309D9" FromRole="LoanApplication" ToRole="LoanStatus" />
+          <NavigationProperty Name="Loan" Relationship="DB58Model.FK__LoanAppli__LoanI__75A278F5" FromRole="LoanApplication" ToRole="Loan" />
+        </EntityType>
+        <EntityType Name="LoanDetail">
+          <Key>
+            <PropertyRef Name="LoanDetailID" />
+          </Key>
+          <Property Name="LoanDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoanID" Type="Int32" Nullable="false" />
+          <Property Name="Detail" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Category" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Lookup" Relationship="Self.FK__LoanDetai__Categ__7D439ABD" FromRole="LoanDetails" ToRole="Lookup" />
+          <NavigationProperty Name="Loan" Relationship="DB58Model.FK__LoanDetai__LoanI__7C4F7684" FromRole="LoanDetail" ToRole="Loan" />
+        </EntityType>
+        <EntityType Name="LoanStatu">
+          <Key>
+            <PropertyRef Name="LoanStatusID" />
+          </Key>
+          <Property Name="LoanStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationID" Type="Int32" Nullable="false" />
+          <Property Name="PrincipleAmount" Type="Double" Nullable="false" />
+          <Property Name="RemainingAmount" Type="Double" Nullable="false" />
+          <Property Name="Tenure" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="LoanApplication" Relationship="Self.FK__LoanStatu__Appli__797309D9" FromRole="LoanStatus" ToRole="LoanApplication" />
+        </EntityType>
+        <EntityType Name="Lookup">
+          <Key>
+            <PropertyRef Name="LookupID" />
+          </Key>
+          <Property Name="LookupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="LoanDetails" Relationship="Self.FK__LoanDetai__Categ__7D439ABD" FromRole="Lookup" ToRole="LoanDetails" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_Login">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="isApproved" Type="Boolean" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_tbl_Login_Employee" FromRole="tbl_Login" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="currentEmployeeView">
+          <Key>
+            <PropertyRef Name="CNIC" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="Contact" />
+            <PropertyRef Name="Postal_Address" />
+            <PropertyRef Name="PostTitle" />
+            <PropertyRef Name="Salary" />
+            <PropertyRef Name="isApproved" />
+            <PropertyRef Name="isActive" />
+          </Key>
+          <Property Name="CNIC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="101" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Postal_Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PostTitle" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Salary" Type="Int32" Nullable="false" />
+          <Property Name="isApproved" Type="Boolean" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="employeeApproveView">
+          <Key>
+            <PropertyRef Name="CNIC" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="Contact" />
+            <PropertyRef Name="Postal_Address" />
+            <PropertyRef Name="isApproved" />
+            <PropertyRef Name="isActive" />
+          </Key>
+          <Property Name="CNIC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="101" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Postal_Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isApproved" Type="Boolean" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Designati__Emplo__656C112C">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Designation" Type="Self.Designation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="CNIC" />
+            </Principal>
+            <Dependent Role="Designation">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoanAppli__Emplo__74AE54BC">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="LoanApplication" Type="Self.LoanApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="CNIC" />
+            </Principal>
+            <Dependent Role="LoanApplication">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Login_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="tbl_Login" Type="Self.tbl_Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="CNIC" />
+            </Principal>
+            <Dependent Role="tbl_Login">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoanStatu__Appli__797309D9">
+          <End Role="LoanApplication" Type="Self.LoanApplication" Multiplicity="1" />
+          <End Role="LoanStatus" Type="Self.LoanStatu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoanApplication">
+              <PropertyRef Name="ApplicationID" />
+            </Principal>
+            <Dependent Role="LoanStatus">
+              <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoanDetai__Categ__7D439ABD">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+          <End Role="LoanDetails" Type="Self.LoanDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupID" />
+            </Principal>
+            <Dependent Role="LoanDetails">
+              <PropertyRef Name="Category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB58Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Designations" EntityType="Self.Designation" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="LoanApplications" EntityType="Self.LoanApplication" />
+          <EntitySet Name="LoanDetails" EntityType="Self.LoanDetail" />
+          <EntitySet Name="LoanStatus" EntityType="Self.LoanStatu" />
+          <EntitySet Name="Lookups" EntityType="Self.Lookup" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tbl_Login" EntityType="Self.tbl_Login" />
+          <EntitySet Name="currentEmployeeViews" EntityType="Self.currentEmployeeView" />
+          <EntitySet Name="employeeApproveViews" EntityType="Self.employeeApproveView" />
+          <AssociationSet Name="FK__Designati__Emplo__656C112C" Association="Self.FK__Designati__Emplo__656C112C">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Designation" EntitySet="Designations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanAppli__Emplo__74AE54BC" Association="Self.FK__LoanAppli__Emplo__74AE54BC">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="LoanApplication" EntitySet="LoanApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Login_Employee" Association="Self.FK_tbl_Login_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="tbl_Login" EntitySet="tbl_Login" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanStatu__Appli__797309D9" Association="Self.FK__LoanStatu__Appli__797309D9">
+            <End Role="LoanApplication" EntitySet="LoanApplications" />
+            <End Role="LoanStatus" EntitySet="LoanStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanDetai__Categ__7D439ABD" Association="Self.FK__LoanDetai__Categ__7D439ABD">
+            <End Role="Lookup" EntitySet="Lookups" />
+            <End Role="LoanDetails" EntitySet="LoanDetails" />
+          </AssociationSet>
+          <FunctionImport Name="employeeAccountApproveView" ReturnType="Collection(DB58Model.employeeAccountApproveView_Result)" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(DB58Model.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(DB58Model.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="vl" ReturnType="Collection(DB58Model.vl_Result)" />
+          <EntitySet Name="empRegisterViews" EntityType="DB58Model.empRegisterView" />
+          <EntitySet Name="Loans" EntityType="DB58Model.Loan" />
+          <AssociationSet Name="FK__LoanAppli__LoanI__75A278F5" Association="DB58Model.FK__LoanAppli__LoanI__75A278F5">
+            <End Role="Loan" EntitySet="Loans" />
+            <End Role="LoanApplication" EntitySet="LoanApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoanDetai__LoanI__7C4F7684" Association="DB58Model.FK__LoanDetai__LoanI__7C4F7684">
+            <End Role="Loan" EntitySet="Loans" />
+            <End Role="LoanDetail" EntitySet="LoanDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="employeeAccountApproveView_Result">
+          <Property Type="String" Name="CNIC" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Contact" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Postal_Address" Nullable="false" MaxLength="255" />
+          <Property Type="Boolean" Name="isApproved" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="vl_Result">
+          <Property Type="Int32" Name="LoanID" Nullable="false" />
+          <Property Type="String" Name="LoanType" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <EntityType Name="empRegisterView">
+          <Key>
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="AGE" />
+            <PropertyRef Name="Gender" />
+            <PropertyRef Name="CNIC" />
+            <PropertyRef Name="DOB" />
+            <PropertyRef Name="Contact" />
+            <PropertyRef Name="Postal_Address" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="isApproved" />
+            <PropertyRef Name="isActive" />
+          </Key>
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AGE" Type="Int32" Nullable="false" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CNIC" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Contact" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Postal_Address" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="isApproved" Type="Boolean" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Loan">
+          <Key>
+            <PropertyRef Name="LoanID" />
+          </Key>
+          <Property Name="LoanID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoanType" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="InterestRate" Type="Double" Nullable="false" />
+          <Property Name="MaxAmount" Type="Double" Nullable="false" />
+          <NavigationProperty Name="LoanApplications" Relationship="DB58Model.FK__LoanAppli__LoanI__75A278F5" FromRole="Loan" ToRole="LoanApplication" />
+          <NavigationProperty Name="LoanDetails" Relationship="DB58Model.FK__LoanDetai__LoanI__7C4F7684" FromRole="Loan" ToRole="LoanDetail" />
+        </EntityType>
+        <Association Name="FK__LoanAppli__LoanI__75A278F5">
+          <End Type="DB58Model.Loan" Role="Loan" Multiplicity="1" />
+          <End Type="DB58Model.LoanApplication" Role="LoanApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Loan">
+              <PropertyRef Name="LoanID" />
+            </Principal>
+            <Dependent Role="LoanApplication">
+              <PropertyRef Name="LoanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoanDetai__LoanI__7C4F7684">
+          <End Type="DB58Model.Loan" Role="Loan" Multiplicity="1" />
+          <End Type="DB58Model.LoanDetail" Role="LoanDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Loan">
+              <PropertyRef Name="LoanID" />
+            </Principal>
+            <Dependent Role="LoanDetail">
+              <PropertyRef Name="LoanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB58ModelStoreContainer" CdmEntityContainer="DB58Entities">
+          <EntitySetMapping Name="Designations">
+            <EntityTypeMapping TypeName="DB58Model.Designation">
+              <MappingFragment StoreEntitySet="Designation">
+                <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="PostTitle" ColumnName="PostTitle" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="DB58Model.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="AGE" ColumnName="AGE" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Postal_Address" ColumnName="Postal_Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoanApplications">
+            <EntityTypeMapping TypeName="DB58Model.LoanApplication">
+              <MappingFragment StoreEntitySet="LoanApplication">
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+                <ScalarProperty Name="LoanID" ColumnName="LoanID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="PrincipalAmount" ColumnName="PrincipalAmount" />
+                <ScalarProperty Name="Verified" ColumnName="Verified" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="AppliedDate" ColumnName="AppliedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoanDetails">
+            <EntityTypeMapping TypeName="DB58Model.LoanDetail">
+              <MappingFragment StoreEntitySet="LoanDetails">
+                <ScalarProperty Name="LoanDetailID" ColumnName="LoanDetailID" />
+                <ScalarProperty Name="LoanID" ColumnName="LoanID" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoanStatus">
+            <EntityTypeMapping TypeName="DB58Model.LoanStatu">
+              <MappingFragment StoreEntitySet="LoanStatus">
+                <ScalarProperty Name="LoanStatusID" ColumnName="LoanStatusID" />
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+                <ScalarProperty Name="PrincipleAmount" ColumnName="PrincipleAmount" />
+                <ScalarProperty Name="RemainingAmount" ColumnName="RemainingAmount" />
+                <ScalarProperty Name="Tenure" ColumnName="Tenure" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lookups">
+            <EntityTypeMapping TypeName="DB58Model.Lookup">
+              <MappingFragment StoreEntitySet="Lookup">
+                <ScalarProperty Name="LookupID" ColumnName="LookupID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DB58Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Login">
+            <EntityTypeMapping TypeName="DB58Model.tbl_Login">
+              <MappingFragment StoreEntitySet="tbl_Login">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="currentEmployeeViews">
+            <EntityTypeMapping TypeName="DB58Model.currentEmployeeView">
+              <MappingFragment StoreEntitySet="currentEmployeeView">
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Postal_Address" ColumnName="Postal_Address" />
+                <ScalarProperty Name="PostTitle" ColumnName="PostTitle" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employeeApproveViews">
+            <EntityTypeMapping TypeName="DB58Model.employeeApproveView">
+              <MappingFragment StoreEntitySet="employeeApproveView">
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Postal_Address" ColumnName="Postal_Address" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="employeeAccountApproveView" FunctionName="DB58Model.Store.employeeAccountApproveView">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB58Model.employeeAccountApproveView_Result">
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Postal_Address" ColumnName="Postal_Address" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="DB58Model.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="DB58Model.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="DB58Model.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="DB58Model.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB58Model.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="DB58Model.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB58Model.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="DB58Model.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="DB58Model.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="vl" FunctionName="DB58Model.Store.vl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB58Model.vl_Result">
+                <ScalarProperty Name="LoanID" ColumnName="LoanID" />
+                <ScalarProperty Name="LoanType" ColumnName="LoanType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="empRegisterViews">
+            <EntityTypeMapping TypeName="DB58Model.empRegisterView">
+              <MappingFragment StoreEntitySet="empRegisterView">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Postal_Address" ColumnName="Postal_Address" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="AGE" ColumnName="AGE" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Loans">
+            <EntityTypeMapping TypeName="DB58Model.Loan">
+              <MappingFragment StoreEntitySet="Loan">
+                <ScalarProperty Name="MaxAmount" ColumnName="MaxAmount" />
+                <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
+                <ScalarProperty Name="LoanType" ColumnName="LoanType" />
+                <ScalarProperty Name="LoanID" ColumnName="LoanID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
