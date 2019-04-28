@@ -1,0 +1,43 @@
+﻿@model WebApplication3.LoanDetail
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LoanDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Detail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Detail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Loan.LoanType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Loan.LoanType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lookup.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lookup.Title)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LoanDetailID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

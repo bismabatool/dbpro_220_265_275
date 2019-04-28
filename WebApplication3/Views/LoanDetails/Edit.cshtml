@@ -1,0 +1,57 @@
+﻿@model WebApplication3.LoanDetail
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<div class="col-xl-8 mx-auto">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="header-title m-t-0">Edit Loan Type</h4>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.LoanDetailID)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LoanID, "LoanID", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            @Html.DropDownList("LoanID", null, htmlAttributes: new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(model => model.LoanID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control input-lg" } })
+                            @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Category, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            @Html.DropDownList("Category", null, htmlAttributes: new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group text-center m-b-0">
+                        <div>
+                            <button style="float:right" type="submit" class="btn btn-primary waves-effect waves-light">
+                                Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
