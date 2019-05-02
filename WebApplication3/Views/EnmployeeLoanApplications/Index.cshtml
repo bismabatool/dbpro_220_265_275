@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WebApplication3.LoanApplication>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        if (item.Verified != true && item.EmployeeID==ViewBag.Id)
+        {
+
+            @Html.HiddenFor(model => item.ApplicationID)
+        <div class="col-lg-4" onclick="location.href='@Url.Action("Edit", "EnmployeeLoanApplications", new { id = item.ApplicationID })'">
+            <div class="card" >
+                <div class="card-heading bg-info">
+                    <h3 class="card-title text-white">@Html.DisplayFor(model => item.Loan.LoanType)</h3>
+                    <p style="font-size:14px" class="card-sub-title">Status: Pending</p>
+                </div>
+                <div class="card-body" style="font-size:16px">
+                    <div>
+                        @Html.DisplayFor(model => item.Reason)
+                    </div>
+                    <p> Rs. @Html.DisplayFor(model => item.PrincipalAmount)</p>
+                    @*@Html.ActionLink("Edit","Edit", "EnmployeeLoanApplications", new { id = item.ApplicationID })*@
+                    @*@Html.ActionLink("Apply", "Create", "EnmployeeLoanApplications", new { id = item.Id }, new { @class = "btn btn-custom btn-block" })*@
+
+                </div>
+            </div>
+        </div>
+            }
+        }
+</div>
+
+
+    @*<td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.ApplicationID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.ApplicationID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.ApplicationID })
+    </td>*@
+                   

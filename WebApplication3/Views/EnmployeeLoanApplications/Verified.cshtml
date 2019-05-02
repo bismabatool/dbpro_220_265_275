@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WebApplication3.Verifiedloan>
+
+@{
+    ViewBag.Title = "Verified";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+
+@foreach (var item in Model)
+{
+    if (item.Email==Session["EmployeeEmail"].ToString())
+    {
+        <article class="pricing-column col-lg-4">
+            <div class="ribbon"><span>VERIFIED</span></div>
+            <div class="inner-box bg-white">
+                <div class="plan-header text-center">
+                    <h3 class="plan-title">@Html.DisplayFor(modelItem => item.LoanType)</h3>
+                    <h2 class="plan-price">Rs. @Html.DisplayFor(modelItem => item.EMI)</h2>
+                    <div class="plan-duration">Per Month</div>
+                </div>
+                <ul class="plan-stats list-unstyled text-center">
+                    <li><b style="color:#000">Loan Sanctioned </b> @Html.DisplayFor(modelItem => item.PrincipleAmount) %</li>
+                    <li><b style="color:#000">Interest Rate</b> @Html.DisplayFor(modelItem => item.InterestRate) %</li>
+                    <li><b style="color:#000">Tenure<small>(years)</small> </b>@Html.DisplayFor(modelItem => item.Tenure)</li>
+                    <li><b style="color:#000">Installments </b>@Html.DisplayFor(modelItem => item.Installments)</li>
+
+                </ul>
+
+                <div class="text-center">
+                    <a onclick="location.href='@Url.Action("AcceptLoan","EnmployeeLoanApplications",new { id = item.Id})'" class="btn btn-danger btn-md w-md btn-bordred btn-rounded waves-effect waves-light">Approve</a>
+                </div>
+            </div>
+        </article>
+    }
+}
