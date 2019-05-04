@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebApplication3.Loan>
+
+@{
+    ViewBag.Title = "Approved";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="row">
+    @foreach (var l in Model)
+    {
+        <div class="col-lg-4" style="height:auto">
+            <div class="card">
+                <div class="card-heading bg-info">
+                    <h3 class="card-title text-white">@Html.DisplayFor(model => l.LoanType)</h3>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <h4>Eligibility</h4>
+                        @foreach (var e in l.LoanDetails.ToList())
+                        {
+                            if (e.Category == 3)
+                            {
+                                <p class="mb-0">@Html.DisplayFor(model => e.Detail)</p>
+                            }
+                        }
+                    </div>
+                    <div>
+                        <h4>Terms & Condtion</h4>
+                        @foreach (var e in l.LoanDetails.ToList())
+                        {
+                            if (e.Category == 2)
+                            {
+                                <p class="mb-0">@Html.DisplayFor(model => e.Detail)</p>
+                            }
+                        }
+                    </div>
+                    <div>
+                        <h4>Policy</h4>
+                        @foreach (var e in l.LoanDetails.ToList())
+                        {
+                            if (e.Category == 1)
+                            {
+                                <p class="mb-0">@Html.DisplayFor(model => e.Detail)</p>
+                            }
+                        }
+                    </div>
+
+                </div>
+                <div class="card-footer bg-white">
+                    @Html.ActionLink("Apply", "Create", "EnmployeeLoanApplications", new { id = l.LoanID }, new { @class = "btn btn-info btn-block" })
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
+
