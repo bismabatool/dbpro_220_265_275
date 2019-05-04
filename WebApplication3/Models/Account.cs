@@ -60,4 +60,18 @@ namespace WebApplication3.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "CNIC is missing")]
         public string CNIC { get; set; }
     }
+
+    public class ResetPasswordViewModel
+    {
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "New Password is required.")]
+        //[DataType(DataType.Password)]
+        //[MinLength(6, ErrorMessage = "At least 6 characters")]
+        public string NewPassword { get; set; }
+        //[Compare("NewPassword", ErrorMessage = "Password doesnot match")]
+        //[DataType(DataType.Password)]
+        //[MinLength(6, ErrorMessage = "At least 6 characters")]
+        public string ConfirmPassword { get; set; }
+        [Required]
+        public string ResetCode { get; set; }
+    }
 }
